@@ -78,10 +78,12 @@
         let desired_char = characters[number];
         let desired_Url = desired_char.image;
         const image = document.createElement("img");
-        image.setAttribute("src", imgURL);
+        image.setAttribute("src", desired_Url);
 
         image_frame.appendChild(image);
       }
+
+      await addOptions(randomNumber, show_characters);
       //add a refresh button. when clicked it reloads every thing
     </script>
   </body>
