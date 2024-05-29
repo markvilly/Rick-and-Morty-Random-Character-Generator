@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rick & Mort Character Generator</title>
+  </head>
+  <style>
+    body {
+      margin: 1rem auto;
+      padding: 3rem;
+      font-family: sans-serif;
+    }
+    header {
+      width: 70%;
+      margin: 1em auto;
+    }
+    main {
+      max-width: 70%;
+      margin: 0px auto;
+      display: flex;
+      flex-direction: column;
+    }
+    img {
+      max-width: 100%;
+    }
+    #image-frame {
+      font-size: x-large;
+      text-align: center;
+      margin: 1rem auto;
+    }
+  </style>
+  <body>
+    <header>
+      <h1>Rick & Morty Random Character Generator</h1>
+      <p>Think you know the show like that? I'd beg to differ</p>
+    </header>
+
+    <main>
+      <div id="image-frame"></div>
+      <div id="options"></div>
+    </main>
+
+    <script type="module">
+      const RICK_AND_MORTY_ENDPOINT =
+        "https://rickandmortyapi.com/api/character";
+
+      const show_characters = [];
+      const image_frame = document.getElementById("image-frame");
+      const options = document.getElementById("options");
+
+      // constainer for all the characters
+
+      //random number generator function that will generate the ID of the character.
+      function randomNumberGen(arr) {
+        return Math.floor(Math.random() * arr.length) + 1;
+      }
+
+      //function that fetches the API endpoint and destructures all the characters into the empty array
+      async function getCharacters() {
+        const response = await fetch(RICK_AND_MORTY_ENDPOINT);
+        const body = await response.json();
+        const { results } = body;
+
+        results.forEach((item) => {
+          show_characters.push(item);
+        });
+
+        console.log(show_characters);
+      }
+
+      await getCharacters();
+      let randomNumber = randomNumberGen(show_characters);
+      console.log(randomNumberGen(show_characters));
+
+      //add the elements that will show the character's name, status, and first appearance.
+      async function addOptions(number, characters) {
+        let desired_char = characters[number];
+        let desired_Url = desired_char.image;
+        const image = document.createElement("img");
+        image.setAttribute("src", imgURL);
+
+        image_frame.appendChild(image);
+      }
+      //add a refresh button. when clicked it reloads every thing
+    </script>
+  </body>
+</html>
