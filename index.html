@@ -8,12 +8,30 @@
   <style>
     body {
       margin: 1rem auto;
-      padding: 3rem;
+      padding: 1rem;
       font-family: sans-serif;
+      background-color: rgb(222, 232, 241);
     }
     header {
+      text-align: center;
       width: 70%;
       margin: 1em auto;
+      h1 {
+        color: rgb(24, 216, 216);
+        font-size: 23pt;
+        font-family: "get schwifty";
+        border: 1px solid yellow ;
+        stroke: yellow;
+        span{
+          font-size: 14pt;
+        }
+      }
+      p {
+        font-size: 12pt;
+      }
+    }
+    .small-text{
+      font-size: 12pt;
     }
     main {
       max-width: 70%;
@@ -22,7 +40,7 @@
       flex-direction: column;
     }
     img {
-      max-width: 100%;
+      max-width: 200px;
     }
     #image-frame {
       font-size: x-large;
@@ -31,9 +49,11 @@
     }
   </style>
   <body>
+
     <header>
-      <h1>Rick & Morty Random Character Generator</h1>
-      <p>Think you know the show like that? I'd beg to differ</p>
+      <h1>Rick <span>and</span> Morty</h1>
+      <h2>Random Character-nator</h1>
+      <p>Think you know the show eeeeh?</p>
     </header>
 
     <main>
@@ -53,7 +73,7 @@
 
       //random number generator function that will generate the ID of the character.
       function randomNumberGen(arr) {
-        return Math.floor(Math.random() * arr.length) + 1;
+        return Math.floor(Math.random() * arr.length);
       }
 
       //function that fetches the API endpoint and destructures all the characters into the empty array
@@ -77,10 +97,29 @@
       async function addOptions(number, characters) {
         let desired_char = characters[number];
         let desired_Url = desired_char.image;
+        let desired_name = desired_char.name
+        let desired_status = desired_char.status
+
+        let name = document.createElement("div")
+        let status = document.createElement("div")
+
         const image = document.createElement("img");
         image.setAttribute("src", desired_Url);
 
-        image_frame.appendChild(image);
+        document.getElementById("image-frame").textContent = "Fetching...";
+        image.addEventListener("load", () => {
+          // Wait until the image has finished loading before trying to add elements to the page
+          document.getElementById("image-frame").replaceChildren(image);
+
+          status.textContent = `Status: ${desired_status}`
+          status.setAttribute("class", "small-text")
+          name.textContent = `Name: ${desired_name}`;
+          name.setAttribute('class', "small-text")
+          image_frame.appendChild(name)
+          image_frame.appendChild(status)
+          // renderButtons(choices, correctAnswer);
+        });
+        // image_frame.appendChild(image);
       }
 
       await addOptions(randomNumber, show_characters);
